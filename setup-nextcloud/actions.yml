@@ -1,0 +1,38 @@
+name: 'Nextcloud app setup'
+description: 'Setup a Nextcloud app for testing'
+inputs:
+  version:
+    description: 'The Nextcloud version to set up'
+    required: false
+    default: '19'
+  cron:
+    description: 'Enable cron'
+    required: false
+    default: true
+  admin-user:
+    description: 'Admin user'
+    required: false
+    default: 'admin'
+  admin-password:
+    description: 'Admin password'
+    required: false
+    default: 'admin'
+  database-type:
+    description: 'Database type'
+    required: false
+    default: 'pgsql'
+  database-user:
+    description: 'Database user'
+    required: false
+    default: 'postgres'
+  database-password:
+    description: 'Database password'
+    required: false
+    default: ''
+  database-name:
+    description: 'Database name'
+    required: false
+    default: 'oc_autotest'
+runs:
+  using: 'node12'
+  main: 'main.js'

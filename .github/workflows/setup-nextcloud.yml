@@ -1,0 +1,40 @@
+name: Nextcloud setup
+
+on:
+  push:
+    paths:
+      - '**setup-nextcloud**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'node_modules/**'
+
+jobs:
+  script:
+    runs-on: ubuntu-latest
+    env:
+      FILENAME: ".revision"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+      - name: Database setup
+        uses: mirromutth/mysql-action@v1.1
+        with:
+          mysql database: 'oc_autotest'
+          mysql user: 'test'
+          mysql password: 'test'
+
+      - name: Script test
+        uses: ./setup-nextcloud/
+        with:
+          version: '19'
+          cron: true
+          database-type: 'mysql'
+          database-user: 'test'
+          database-password: 'test'
+          database-name: 'oc_autotest'
+      - name: Test
+        run: ./occ maintenance:mode --on

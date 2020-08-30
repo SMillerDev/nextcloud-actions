@@ -1,0 +1,27 @@
+{
+  "name": "nextcloud-actions",
+  "version": "1.0.0",
+  "description": "Setup a nextcloud development environment",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SMillerDev/actions.git"
+  },
+  "keywords": [
+    "github",
+    "actions"
+  ],
+  "author": "Sean Molenaar",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SMillerDev/actions/issues"
+  },
+  "homepage": "https://github.com/SMillerDev/actions#readme",
+  "dependencies": {
+    "@actions/core": "^1.2.5",
+    "@actions/github": "^4.0.0"
+  }
+}
