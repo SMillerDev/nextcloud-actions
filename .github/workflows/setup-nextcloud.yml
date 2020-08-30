@@ -28,4 +28,4 @@ jobs:
           cron: true
           database-type: 'sqlite'
       - name: Test setup
-        run: cd server && ./occ maintenance:mode --on
+        run: cd ../server && ./occ maintenance:mode --on

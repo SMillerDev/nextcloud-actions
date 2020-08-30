@@ -1,0 +1,39 @@
+name: Nextcloud app setup
+
+on:
+  push:
+    paths:
+      - '**setup-nextcloud-app**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'node_modules/**'
+
+jobs:
+  setup-nextcloud-app:
+    runs-on: ubuntu-latest
+    env:
+      FILENAME: ".revision"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+
+      - name: Server setup
+        uses: ./setup-nextcloud/
+        with:
+          version: '19'
+          database-type: 'sqlite'
+      - name: Test setup
+        run: |
+          mkdir appinfo && 
+          curl https://raw.githubusercontent.com/nextcloud/app-tutorial/HEAD/appinfo/info.xml -o appinfo/info.xml
+      - name: Script test
+        uses: ./setup-nextcloud-app/
+        with:
+          app: 'notestutorial'
+          check-code: false
+      - name: Test setup
+        run: cd ../server && ./occ app:list | grep notestutorial
