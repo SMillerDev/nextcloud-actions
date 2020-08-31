@@ -1,0 +1,14 @@
+name: 'Nextcloud app setup'
+description: 'Setup a Nextcloud app for testing'
+inputs:
+  app:
+    description: 'App name to test'
+    required: true
+    default: null
+  check-code:
+    description: 'Check app code'
+    required: true
+    default: false
+runs:
+  using: 'node12'
+  main: 'main.js'

@@ -4,14 +4,14 @@ const exec = require('@actions/exec')
 async function main() {
     try {
         const cron             = core.getInput("cron")
-        const version          = core.getInput("version")
+        const version          = core.getInput("version", {required: true})
         const adminUser        = core.getInput("admin-user")
         const adminPassword    = core.getInput("admin-password")
-        const databaseType     = core.getInput("database-type")
+        const databaseType     = core.getInput("database-type", {required: true})
         const databaseName     = core.getInput("database-name")
         const databaseUser     = core.getInput("database-user")
         const databasePassword = core.getInput("database-password")
-        const serverDir        = 'server'
+        const serverDir        = '../server'
 
         let branch = `stable${version}`
         if (version === 'pre-release') {
