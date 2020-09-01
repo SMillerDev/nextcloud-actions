@@ -8,9 +8,31 @@ on:
       - 'package-lock.json'
       - 'node_modules/**'
 
+env:
+  POSTGRES_PASSWORD: nc_test_db
+  MYSQL_USER: nc_test
+  MYSQL_PASSWORD: nc_test_db
+  MYSQL_DATABASE: nc_test
+
 jobs:
   setup-nextcloud:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        database: ['sqlite', 'pgsql', 'mysql']
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          # Maps tcp port 5432 on service container to the host
+          - 5432:5432
     env:
       FILENAME: ".revision"
     steps:
@@ -21,11 +43,39 @@ jobs:
         with:
           php-version: '7.4'
 
+      - name: Setup mysql
+        if: matrix.database == 'mysql'
+        uses: getong/mariadb-action@v1.1
+        with:
+          host port: 3800
+          mysql database: ${{ env.MYSQL_DATABASE }}
+          mysql root password: ${{ env.MYSQL_PASSWORD }}
+          mysql user: ${{ env.MYSQL_USER }}
+          mysql password: ${{ env.MYSQL_PASSWORD }}
       - name: Script test
+        if: matrix.database == 'mysql'
         uses: ./setup-nextcloud/
         with:
           version: '19'
           cron: true
-          database-type: 'sqlite'
+          database-type: ${{ matrix.database }}
+          database-host: 127.0.0.1
+          database-port: 3800
+          database-name: ${{ env.MYSQL_DATABASE }}
+          database-user: root
+          database-password: ${{ env.MYSQL_PASSWORD }}
+
+      - name: Script test
+        if: matrix.database != 'mysql'
+        uses: ./setup-nextcloud/
+        with:
+          version: '19'
+          cron: true
+          database-type: ${{ matrix.database }}
+          database-host: localhost
+          database-port: 5432
+          database-name: postgres
+          database-user: postgres
+          database-password: ${{ env.POSTGRES_PASSWORD }}
       - name: Test setup
         run: cd ../server && ./occ maintenance:mode --on

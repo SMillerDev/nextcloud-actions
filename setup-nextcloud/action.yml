@@ -17,22 +17,51 @@ inputs:
     description: 'Admin password'
     required: false
     default: 'admin'
+  admin-email:
+    description: 'Admin email address'
+    required: false
+    default: 'admin@nextcloud.local'
   database-type:
     description: 'Database type'
     required: false
-    default: 'pgsql'
+    default: 'sqlite'
   database-user:
     description: 'Database user'
     required: false
-    default: 'postgres'
+    default: ''
   database-password:
     description: 'Database password'
+    required: false
+    default: ''
+  database-host:
+    description: 'Database host'
+    required: false
+    default: 'localhost'
+  database-port:
+    description: 'Database port'
     required: false
     default: ''
   database-name:
     description: 'Database name'
     required: false
-    default: 'oc_autotest'
+    default: ''
+  database-table-prefix:
+    description: 'Database table prefix'
+    required: false
+    default: ''
+  database-table-space:
+    description: 'Database table space'
+    required: false
+    default: ''
+  data-dir:
+    description: 'Data directory'
+    required: false
+    default: ''
+  server-dir:
+    description: 'Data directory'
+    required: false
+    default: '../server'
+
 runs:
   using: 'node12'
   main: 'main.js'

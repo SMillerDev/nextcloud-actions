@@ -3,15 +3,25 @@ const exec = require('@actions/exec')
 
 async function main() {
     try {
-        const cron             = core.getInput("cron")
-        const version          = core.getInput("version", {required: true})
-        const adminUser        = core.getInput("admin-user")
-        const adminPassword    = core.getInput("admin-password")
-        const databaseType     = core.getInput("database-type", {required: true})
-        const databaseName     = core.getInput("database-name")
-        const databaseUser     = core.getInput("database-user")
-        const databasePassword = core.getInput("database-password")
-        const serverDir        = '../server'
+        const cron          = core.getInput("cron")
+        const version       = core.getInput("version", {required: true})
+        //User settings
+        const adminUser     = core.getInput("admin-user")
+        const adminPassword = core.getInput("admin-password")
+        const adminEmail    = core.getInput("admin-email")
+        //Database settings
+        const dbType        = core.getInput("database-type", {required: true})
+        const dbName        = core.getInput("database-name")
+        const dbUser        = core.getInput("database-user")
+        const dbPassword    = core.getInput("database-password")
+        const dbHost        = core.getInput("database-host")
+        const dbPort        = core.getInput("database-port")
+        const dbTablePrefix = core.getInput("database-table-prefix")
+        const dbTableSpace  = core.getInput("database-table-space")
+        // File locations
+        const dataDir       = core.getInput("data-dir")
+        const serverDir     = core.getInput("server-dir")
+
 
         let branch = `stable${version}`
         if (version === 'pre-release') {
@@ -28,14 +38,36 @@ async function main() {
             "maintenance:install",
             `--admin-user=${adminUser}`,
             `--admin-pass=${adminPassword}`,
-            `--database=${databaseType}`
+            `--admin-email=${adminEmail}`,
+            `--database=${dbType}`,
         ]
-        if (databaseType !== 'sqlite') {
-            setupArgs += [
-                `--database-name=${databaseName}`,
-                `--database-user=${databaseUser}`,
-                `--database-pass=${databasePassword}`
-            ]
+
+        if (dataDir) {
+            setupArgs = setupArgs.concat([`--data-dir=${dataDir}`])
+        }
+
+        if (dbType !== 'sqlite') {
+            setupArgs = setupArgs.concat([
+                `--database-name=${dbName}`,
+                `--database-user=${dbUser}`,
+                `--database-pass=${dbPassword}`,
+            ])
+
+            if (dbHost) {
+                setupArgs = setupArgs.concat([`--database-host=${dbHost}`])
+            }
+
+            if (dbPort) {
+                setupArgs = setupArgs.concat([`--database-port=${dbPort}`])
+            }
+
+            if (dbTablePrefix) {
+                setupArgs = setupArgs.concat([`--database-table-prefix=${dbTablePrefix}`])
+            }
+
+            if (dbTableSpace) {
+                setupArgs = setupArgs.concat([`--database-table-space=${dbTableSpace}`])
+            }
         }
 
         // Setup install
