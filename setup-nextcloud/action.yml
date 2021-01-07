@@ -4,11 +4,7 @@ inputs:
   version:
     description: 'The Nextcloud version to set up based on the stableXX branch'
     required: false
-    default: '19'
-  tag:
-    description: 'Instead of checking out the stableXX branch, checkout a specific tag'
-    required: false
-    default: ''
+    default: 'stable19'
   cron:
     description: 'Enable cron'
     required: false

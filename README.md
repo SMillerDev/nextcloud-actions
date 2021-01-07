@@ -8,7 +8,7 @@ To set up a nextcloud instance on the runner in `../server`, use the following c
       - name: Nextcloud test setup
         uses: SMillerDev/setup-nextcloud@main
         with:
-          version: '19'
+          version: 'stable19'
           database-type: 'sqlite'
 ```
 
@@ -17,7 +17,7 @@ The default configuration is:
       - name: Nextcloud test setup
         uses: SMillerDev/setup-nextcloud@main
         with:
-          version: '19'
+          version: 'stable19'
           cron: true
           admin-user: 'admin'
           admin-password: 'admin'

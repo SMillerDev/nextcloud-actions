@@ -5,7 +5,6 @@ async function main() {
     try {
         const cron          = core.getInput("cron")
         const version       = core.getInput("version", {required: true})
-        const tag           = core.getInput("tag")
         //User settings
         const adminUser     = core.getInput("admin-user")
         const adminPassword = core.getInput("admin-password")
@@ -23,19 +22,8 @@ async function main() {
         const dataDir       = core.getInput("data-dir")
         const serverDir     = core.getInput("server-dir")
 
-
-        let branch = `stable${version}`
-        if (version === 'pre-release') {
-            branch = 'master'
-        }
-
         // Checkout the main server repo
-        if (tag !== '') {
-            await exec.exec("git", ["clone", "https://github.com/nextcloud/server.git", "--recursive", "--depth=1", `--branch=${tag}`, serverDir])
-        }else{
-            await exec.exec("git", ["clone", "https://github.com/nextcloud/server.git", "--recursive", "--depth=1", `--branch=${branch}`, serverDir])
-        }
-        
+        await exec.exec("git", ["clone", "https://github.com/nextcloud/server.git", "--recursive", "--depth=1", `--branch=${version}`, serverDir])
 
         // Open nextcloud server directory
         process.chdir(serverDir)
