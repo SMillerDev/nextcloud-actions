@@ -7,7 +7,12 @@ on:
       - 'package.json'
       - 'package-lock.json'
       - 'node_modules/**'
-
+  pull_request:
+      paths:
+      - '**setup-nextcloud-app**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'node_modules/**'
 env:
   POSTGRES_PASSWORD: nc_test_db
   MYSQL_USER: nc_test
