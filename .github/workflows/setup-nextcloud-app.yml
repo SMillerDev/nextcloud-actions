@@ -7,6 +7,12 @@ on:
       - 'package.json'
       - 'package-lock.json'
       - 'node_modules/**'
+  pull_request:
+      paths:
+      - '**setup-nextcloud-app**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'node_modules/**'
 
 jobs:
   setup-nextcloud-app:
@@ -24,7 +30,7 @@ jobs:
       - name: Server setup
         uses: ./setup-nextcloud/
         with:
-          version: '19'
+          version: 'stable20'
           database-type: 'sqlite'
       - name: Test setup
         run: |
