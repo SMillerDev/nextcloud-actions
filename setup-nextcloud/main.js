@@ -22,6 +22,10 @@ async function main() {
         const dataDir       = core.getInput("data-dir")
         const serverDir     = core.getInput("server-dir")
 
+        if (version === 'pre-release') {
+            version = 'master'
+        }
+
         // Checkout the main server repo
         await exec.exec("git", ["clone", "https://github.com/nextcloud/server.git", "--recursive", "--depth=1", `--branch=${version}`, serverDir])
 
