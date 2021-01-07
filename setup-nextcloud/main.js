@@ -22,10 +22,10 @@ async function main() {
         const dataDir       = core.getInput("data-dir")
         const serverDir     = core.getInput("server-dir")
 
-
-        let branch = `stable${version}`
         if (version === 'pre-release') {
             branch = 'master'
+        }else{
+            branch = version
         }
 
         // Checkout the main server repo
