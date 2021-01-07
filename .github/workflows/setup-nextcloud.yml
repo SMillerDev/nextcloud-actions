@@ -56,7 +56,7 @@ jobs:
         if: matrix.database == 'mysql'
         uses: ./setup-nextcloud/
         with:
-          version: '19'
+          version: 'stable20'
           cron: true
           database-type: ${{ matrix.database }}
           database-host: 127.0.0.1
@@ -69,7 +69,7 @@ jobs:
         if: matrix.database != 'mysql'
         uses: ./setup-nextcloud/
         with:
-          version: '19'
+          version: 'stable20'
           cron: true
           database-type: ${{ matrix.database }}
           database-host: localhost
