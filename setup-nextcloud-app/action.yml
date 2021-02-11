@@ -4,11 +4,15 @@ inputs:
   app:
     description: 'App name to test'
     required: true
-    default: null
+    default: 'null'
   check-code:
     description: 'Check app code'
     required: true
-    default: false
+    default: 'false'
+  force:
+    description: 'Force enable'
+    required: false
+    default: 'false'
 runs:
   using: 'node12'
   main: 'main.js'
