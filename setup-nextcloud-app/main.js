@@ -13,11 +13,13 @@ async function main() {
 
         process.chdir(serverDir)
 
+        var args = ["app:enable", app]
+
         if (force) {
-            await exec.exec("./occ", ["-f", "app:enable", app])
-        }else {
-            await exec.exec("./occ", ["app:enable", app])
+            args.push("-f")
         }
+
+        await exec.exec("./occ", args)
 
         if (check) {
             await exec.exec("./occ", ["app:check-code", app])
