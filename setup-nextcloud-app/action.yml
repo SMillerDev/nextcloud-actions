@@ -4,10 +4,9 @@ inputs:
   app:
     description: 'App name to test'
     required: true
-    default: 'null'
   check-code:
     description: 'Check app code'
-    required: true
+    required: false
     default: 'false'
   force:
     description: 'Force enable'

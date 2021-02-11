@@ -4,8 +4,8 @@ const exec = require('@actions/exec')
 async function main() {
     try {
         const app       = core.getInput("app", {required: true})
-        const check     = core.getInput("check-code", {required: true})
-        const force     = core.getInput("force", {required: false})
+        const check     = (core.getInput("check-code", {required: false}) == 'true')
+        const force     = (core.getInput("force", {required: false}) == 'true')
         const serverDir = '../server'
 
         await exec.exec("mkdir", ["-p",`${serverDir}/apps/${app}`])
