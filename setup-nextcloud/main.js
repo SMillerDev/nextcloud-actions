@@ -3,7 +3,7 @@ const exec = require('@actions/exec')
 
 async function main() {
     try {
-        const cron          = core.getInput("cron")
+        const cron          = (core.getInput("cron") == 'true')
         const version       = core.getInput("version", {required: true})
         //User settings
         const adminUser     = core.getInput("admin-user")
