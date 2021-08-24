@@ -57,11 +57,12 @@ jobs:
           mysql root password: ${{ env.MYSQL_PASSWORD }}
           mysql user: ${{ env.MYSQL_USER }}
           mysql password: ${{ env.MYSQL_PASSWORD }}
+          mariadb version: '10.5'
       - name: Script test
         if: matrix.database == 'mysql'
         uses: ./setup-nextcloud/
         with:
-          version: 'stable20'
+          version: 'stable22'
           cron: true
           database-type: ${{ matrix.database }}
           database-host: 127.0.0.1
@@ -74,7 +75,7 @@ jobs:
         if: matrix.database != 'mysql'
         uses: ./setup-nextcloud/
         with:
-          version: 'stable20'
+          version: 'stable22'
           cron: true
           database-type: ${{ matrix.database }}
           database-host: localhost
