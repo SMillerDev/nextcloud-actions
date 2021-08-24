@@ -30,7 +30,7 @@ jobs:
       - name: Server setup
         uses: ./setup-nextcloud/
         with:
-          version: 'stable20'
+          version: 'stable22'
           database-type: 'sqlite'
       - name: Test setup
         run: |
