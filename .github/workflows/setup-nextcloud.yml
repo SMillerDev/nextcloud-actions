@@ -46,7 +46,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@2.25.4
         with:
-          php-version: '7.4'
+          php-version: '8.2'
 
       - name: Setup mysql
         if: matrix.database == 'mysql'
@@ -62,7 +62,7 @@ jobs:
         if: matrix.database == 'mysql'
         uses: ./setup-nextcloud/
         with:
-          version: 'stable22'
+          version: 'stable27'
           cron: true
           database-type: ${{ matrix.database }}
           database-host: 127.0.0.1
@@ -75,7 +75,7 @@ jobs:
         if: matrix.database != 'mysql'
         uses: ./setup-nextcloud/
         with:
-          version: 'stable22'
+          version: 'stable27'
           cron: true
           database-type: ${{ matrix.database }}
           database-host: localhost
