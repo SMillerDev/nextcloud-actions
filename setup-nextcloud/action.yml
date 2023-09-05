@@ -4,7 +4,7 @@ inputs:
   version:
     description: 'The Nextcloud version to set up, git branch or tag'
     required: false
-    default: 'stable20'
+    default: 'stable27'
   cron:
     description: 'Enable cron'
     required: false
@@ -63,5 +63,5 @@ inputs:
     default: '../server'
 
 runs:
-  using: 'node16'
+  using: 'node20'
   main: 'main.js'
