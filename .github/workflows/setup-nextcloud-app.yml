@@ -41,5 +41,6 @@ jobs:
         with:
           app: 'notestutorial'
           check-code: false
+          force: true
       - name: Test setup
         run: cd ../server && ./occ app:list | grep notestutorial
