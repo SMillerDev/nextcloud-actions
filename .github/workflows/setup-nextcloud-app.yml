@@ -25,12 +25,12 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@2.25.4
         with:
-          php-version: '7.4'
+          php-version: '8.2'
 
       - name: Server setup
         uses: ./setup-nextcloud/
         with:
-          version: 'stable22'
+          version: 'stable27'
           database-type: 'sqlite'
       - name: Test setup
         run: |
