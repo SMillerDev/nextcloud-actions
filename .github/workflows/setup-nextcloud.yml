@@ -50,7 +50,7 @@ jobs:
 
       - name: Setup mysql
         if: matrix.database == 'mysql'
-        uses: getong/mariadb-action@v1.2
+        uses: getong/mariadb-action@v1.11
         with:
           host port: 3800
           mysql database: ${{ env.MYSQL_DATABASE }}
