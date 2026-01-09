@@ -42,46 +42,34 @@ jobs:
       FILENAME: ".revision"
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
       - name: Setup PHP
-        uses: shivammathur/setup-php@2.36.0
+        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 # 2.36.0
         with:
-          php-version: '8.2'
+          php-version: '8.4'
 
       - name: Setup mysql
         if: matrix.database == 'mysql'
-        uses: getong/mariadb-action@v1.11
+        uses: getong/mariadb-action@d6d2ec41fd5588f369be4c9398ce77ee725ca9ea # v1.11
         with:
           host port: 3800
           mysql database: ${{ env.MYSQL_DATABASE }}
           mysql root password: ${{ env.MYSQL_PASSWORD }}
           mysql user: ${{ env.MYSQL_USER }}
           mysql password: ${{ env.MYSQL_PASSWORD }}
-          mariadb version: '10.5'
+          mariadb version: '11.8'
       - name: Script test
-        if: matrix.database == 'mysql'
         uses: ./setup-nextcloud/
         with:
-          version: 'stable27'
+          version: 'stable32'
           cron: true
           database-type: ${{ matrix.database }}
-          database-host: 127.0.0.1
-          database-port: 3800
-          database-name: ${{ env.MYSQL_DATABASE }}
-          database-user: root
-          database-password: ${{ env.MYSQL_PASSWORD }}
+          database-host: ${{ matrix.database == 'mysql' && '127.0.0.1' || 'localhost' }}
+          database-port: ${{ matrix.database == 'mysql' && '3800' || '5432' }}
+          database-name: ${{ matrix.database == 'mysql' && env.MYSQL_DATABASE || 'postgres' }}
+          database-user: ${{ matrix.database == 'mysql' && 'root' || 'postgres' }}
+          database-password: ${{ matrix.database == 'mysql' && env.MYSQL_PASSWORD || env.POSTGRES_PASSWORD }}
 
-      - name: Script test
-        if: matrix.database != 'mysql'
-        uses: ./setup-nextcloud/
-        with:
-          version: 'stable27'
-          cron: true
-          database-type: ${{ matrix.database }}
-          database-host: localhost
-          database-port: 5432
-          database-name: postgres
-          database-user: postgres
-          database-password: ${{ env.POSTGRES_PASSWORD }}
+
       - name: Test setup
         run: cd ../server && ./occ maintenance:mode --on
