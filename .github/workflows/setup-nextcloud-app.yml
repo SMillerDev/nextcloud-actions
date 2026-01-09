@@ -14,14 +14,21 @@ on:
       - 'package-lock.json'
       - 'node_modules/**'
 
+permissions: {}
+
 jobs:
   setup-nextcloud-app:
     runs-on: ubuntu-latest
     env:
       FILENAME: ".revision"
+    permissions:
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          persist-credentials: false
+
       - name: Setup PHP
         uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 # 2.36.0
         with:
@@ -32,15 +39,18 @@ jobs:
         with:
           version: 'stable31'
           database-type: 'sqlite'
+
       - name: Test setup
         run: |
           mkdir appinfo && 
           curl https://raw.githubusercontent.com/nextcloud/app-tutorial/HEAD/appinfo/info.xml -o appinfo/info.xml
+
       - name: Script test
         uses: ./setup-nextcloud-app/
         with:
           app: 'notestutorial'
           check-code: false
           force: true
+
       - name: Test setup
         run: cd ../server && ./occ app:list | grep notestutorial

@@ -19,6 +19,8 @@ env:
   MYSQL_PASSWORD: nc_test_db
   MYSQL_DATABASE: nc_test
 
+permissions: {}
+
 jobs:
   setup-nextcloud:
     runs-on: ubuntu-latest
@@ -27,7 +29,7 @@ jobs:
         database: ['sqlite', 'pgsql', 'mysql']
     services:
       postgres:
-        image: postgres
+        image: postgres:18
         env:
           POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
         options: >-
@@ -40,9 +42,14 @@ jobs:
           - 5432:5432
     env:
       FILENAME: ".revision"
+    permissions:
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          persist-credentials: false
+
       - name: Setup PHP
         uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 # 2.36.0
         with:
@@ -58,6 +65,7 @@ jobs:
           mysql user: ${{ env.MYSQL_USER }}
           mysql password: ${{ env.MYSQL_PASSWORD }}
           mariadb version: '11.8'
+
       - name: Script test
         uses: ./setup-nextcloud/
         with:
@@ -69,7 +77,6 @@ jobs:
           database-name: ${{ matrix.database == 'mysql' && env.MYSQL_DATABASE || 'postgres' }}
           database-user: ${{ matrix.database == 'mysql' && 'root' || 'postgres' }}
           database-password: ${{ matrix.database == 'mysql' && env.MYSQL_PASSWORD || env.POSTGRES_PASSWORD }}
-
 
       - name: Test setup
         run: cd ../server && ./occ maintenance:mode --on
