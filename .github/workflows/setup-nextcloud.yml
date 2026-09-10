@@ -67,7 +67,7 @@ jobs:
           mariadb version: '11.8'
 
       - name: Script test
-        uses: ./setup-nextcloud/
+        uses: $/setup-nextcloud/
         with:
           version: 'stable32'
           cron: true
