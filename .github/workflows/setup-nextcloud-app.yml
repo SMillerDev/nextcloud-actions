@@ -35,7 +35,7 @@ jobs:
           php-version: '8.4'
 
       - name: Server setup
-        uses: ./setup-nextcloud/
+        uses: $/setup-nextcloud/
         with:
           version: 'stable31'
           database-type: 'sqlite'
@@ -46,7 +46,7 @@ jobs:
           curl https://raw.githubusercontent.com/nextcloud/app-tutorial/HEAD/appinfo/info.xml -o appinfo/info.xml
 
       - name: Script test
-        uses: ./setup-nextcloud-app/
+        uses: $/setup-nextcloud-app/
         with:
           app: 'notestutorial'
           check-code: false
